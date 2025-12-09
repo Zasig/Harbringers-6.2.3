@@ -2515,7 +2515,8 @@ public:
 			if (GetTargetApplication()->GetRemoveMode() != AURA_REMOVE_BY_EXPIRE || !GetCaster())
 				return;
 
-			Creature* owner = GetOwner()->ToCreature();
+			if (Creature* owner = GetOwner()->ToCreature())
+			{
 			owner->RemoveAllAurasExceptType(SPELL_AURA_DUMMY);
 			owner->CombatStop(true);
 			owner->DeleteThreatList();
@@ -2526,6 +2527,7 @@ public:
 			owner->setFaction(35);
 			owner->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_IMMUNE_TO_NPC);
 			owner->DespawnOrUnsummon(3 * MINUTE*IN_MILLISECONDS);
+			}
 		}
 
 		void Register()
